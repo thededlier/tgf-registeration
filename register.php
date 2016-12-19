@@ -1,8 +1,15 @@
  <?php
+    session_start();
+    // Status of previous form if submited
+    if(isset($_SESSION["id_used"]) && !empty($_SESSION["id_used"])) {
+        echo $_SESSION["id_used"] . " status : " . $_SESSION["status"];
+        session_unset(); 
+    }
+
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "tgf";
+    $username   = "root";
+    $password   = "";
+    $dbname     = "tgf";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,5 +1,7 @@
 <?php
-	// define variables and set to empty values
+	session_start();
+
+	$flag = "FALSE";		
 	$player_id = $name = $team_name = $game1 = $game2 = $fees = "";
 
 	// Get values and test
@@ -43,6 +45,7 @@
     			VALUES('$player_id', '$name', '$team_name', '$game1', '$game2', '$fees')";
 
     	if ($conn->query($sql) === TRUE) {
+    		$flag = "TRUE";
 	        echo "New record created successfully\n";
 	    } else {
 	        echo "Error: " . $sql . "<br>" . $conn->error;
@@ -61,4 +64,10 @@
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     // [END REMOVE_LOCK]
+
+    // Send back status of registration
+    $_SESSION["id_used"] 	=	$player_id;
+    $_SESSION["status"] 	=	$flag; 
+
+    header('Location: /register.php');
 ?>
