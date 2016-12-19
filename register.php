@@ -93,25 +93,25 @@
                 <h1> Participant Registration</h1>
             </div>
             
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="/process/process_register.php" method="POST">
                 <div class="col-lg-6 col-xs-12">
                     <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="id">ID</label>
+                        <label class="control-label col-lg-4 col-xs-3" for="player_id">ID</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="id" required="required" disabled
+                            <input type="text" class="form-control" id="player_id" name="player_id" required="required" readonly
                                     value="<?php echo $id; ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="name">Name</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="name" required="required">
+                            <input type="text" class="form-control" id="name" name="name" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="team_name">Team Name</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="team_name">
+                            <input type="text" class="form-control" id="team_name" name="team_name">
                         </div>
                     </div>
                 </div>
@@ -120,19 +120,19 @@
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="game1">Game 1</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="game1" required="required">
+                            <input type="text" class="form-control" id="game1" name="game1" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="game2">Game 2</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="game2" required="required">
+                            <input type="text" class="form-control" id="game2" name="game2" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="fees">Fees Paid</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="number" class="form-control" id="fees" required="required">
+                            <input type="number" class="form-control" id="fees" name="fees" required="required">
                         </div>
                     </div>
                 </div>
