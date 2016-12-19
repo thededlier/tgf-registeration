@@ -2,8 +2,12 @@
     session_start();
     // Status of previous form if submited
     if(isset($_SESSION["id_used"]) && !empty($_SESSION["id_used"])) {
-        echo $_SESSION["id_used"] . " status : " . $_SESSION["status"];
+        echo $_SESSION["id_used"] . " status : " . $_SESSION["status"] . "<br>";
         session_unset(); 
+    }
+    if(isset($_SESSION["id_unlock"]) && !empty($_SESSION["id_unlock"])) {
+        echo $_SESSION["id_unlock"] . " unlocked successfully";
+        session_unset();
     }
 
     $servername = "localhost";
@@ -146,6 +150,40 @@
 
                 <button type="submit" class="btn btn-primary"> Submit</button>
             </form>
+        </div>
+
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <th>Locked ID</th>
+                        <th>Time of Lock</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $sql = "SELECT * FROM locks order by lock_id asc";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while($row = $result->fetch_assoc()) {
+                                    $html = "<form action='/process/process_unlock.php' method='POST'>" .
+                                                "<input type='hidden' name='lock_id' value='" . $row["lock_id"] . "'>" .
+                                                "<input type='hidden' name='unused_id' value='" . $id . "'>" .
+                                                "<tr>" .
+                                                    "<td>" . $row["lock_id"] . "</td>" .
+                                                    "<td>" . $row["timestamp"] . "</td>" .
+                                                    "<td>" . "<button type='submit' id='>" . $row["lock_id"] . "'>Unlock</button>" . "</td>" .
+                                                "</tr>" .
+                                            "</form>";
+                                    echo $html;
+                                }
+                            } else {
+                                echo "Failed to fetch locks";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
