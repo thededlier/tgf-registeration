@@ -72,7 +72,7 @@
 <html>
 
 <head>
-    <title>Rohan Anand</title>
+    <title>TGF - Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">    
