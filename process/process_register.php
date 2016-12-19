@@ -31,11 +31,12 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    echo "Connected successfully\n";
+    echo "Connected successfully";
 
     $sql = "SELECT player_id FROM register WHERE player_id = '$player_id'";
     $result = $conn->query($sql);
 
+    // [START SUBMISSION]
     // Final check if ID not already used
     if($result->num_rows == 0) {
     	$sql = "INSERT INTO register(player_id, name, team_name, game1, game2, fees_paid) 
@@ -47,6 +48,17 @@
 	        echo "Error: " . $sql . "<br>" . $conn->error;
 	    }
     } else {
+    	// ID Already used
     	echo "ID Mismatch";
     }
+    // [END SUBMISSION]
+
+    // [START REMOVE_LOCK]
+    $sql = "DELETE FROM locks WHERE lock_id = '$player_id'";
+    if ($conn->query($sql) === TRUE) {
+        echo "Lock removed";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    // [END REMOVE_LOCK]
 ?>
