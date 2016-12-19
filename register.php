@@ -15,29 +15,49 @@
 
 
     // Locking Algorithm
+    // [START LOCK]
     // Determine ID to set
     $sql = "SELECT * FROM register order by player_id asc";
     $result = $conn->query($sql);
-    
+
+    $check = "TRUE";
+    $id = "TGF170001";
     if ($result->num_rows > 0) {
+        // Check used values
         while($row = $result->fetch_assoc()) {
-            $id = $row["player_id"];
+            while($check) {
+                if($id != $row["player_id"]) {
+                    // Check if locked
+                    $sql = "SELECT * FROM locks where lock_id = '$id'";
+                    $locks = $conn->query($sql);
+                    if($locks->num_rows == 0) {
+                        $check = "FALSE";
+                        break;
+                    }
+                } 
+                $id ++;
+            }
+            if(!$check)
+                break;
         }
-        $id ++;
     } else {
         $sql = "SELECT * FROM locks order by lock_id asc";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                $id = $row["lock_id"];
+                if($id != $row["lock_id"]) {
+                    break;
+                } else {
+                    $id = $row["lock_id"];
+                }
+                $id ++;
             }
-            $id++;
         } else {
-            // Initial Value
+            // Initialize. This is the start of entering data
             $id = "TGF170001";
         }
     }
-
+    // add lock
     $sql = "INSERT INTO locks(lock_id) 
             VALUES('$id')";
     if ($conn->query($sql) === TRUE) {
@@ -45,6 +65,7 @@
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+    // [STOP LOCK]
 ?> 
 
 <!DOCTYPE html>
