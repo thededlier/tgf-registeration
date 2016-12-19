@@ -16,17 +16,26 @@
 
     // Locking Algorithm
     // Determine ID to set
-    $sql = "SELECT * FROM locks order by lock_id asc";
+    $sql = "SELECT * FROM register order by player_id asc";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            $id = $row["lock_id"];
-            $id ++;
+            $id = $row["player_id"];
         }
+        $id ++;
     } else {
-        // Initial value;
-        $id = "TGF170001";
+        $sql = "SELECT * FROM locks order by lock_id asc";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $id = $row["lock_id"];
+            }
+            $id++;
+        } else {
+            // Initial Value
+            $id = "TGF170001";
+        }
     }
 
     $sql = "INSERT INTO locks(lock_id) 
@@ -55,7 +64,7 @@
 </head>
 
 <body>
-    
+
     <div class="container">
         <div class="row">
 
@@ -68,7 +77,8 @@
                     <div class="form-group">
                         <label class="control-label col-lg-4 col-xs-3" for="id">ID</label>
                         <div class="col-lg-8 col-xs-9">
-                            <input type="number" class="form-control" id="id" required="required">
+                            <input type="text" class="form-control" id="id" required="required" disabled
+                                    value="<?php echo $id; ?>">
                         </div>
                     </div>
                     <div class="form-group">
