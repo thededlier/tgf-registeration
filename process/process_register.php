@@ -12,6 +12,8 @@
 		$game1 		= 	test_input($_POST["game1"]);
 		$game2 		= 	test_input($_POST["game2"]);
 		$fees		=	test_input($_POST["fees"]);
+		$match_status1 = "waiting"; 	// Default value
+		$match_status2 = "waiting"; 	// Default value
 	}
 
 	function test_input($data) {
@@ -41,8 +43,8 @@
     // [START SUBMISSION]
     // Final check if ID not already used
     if($result->num_rows == 0) {
-    	$sql = "INSERT INTO register(player_id, name, team_name, game1, game2, fees_paid) 
-    			VALUES('$player_id', '$name', '$team_name', '$game1', '$game2', '$fees')";
+    	$sql = "INSERT INTO register(player_id, name, team_name, game1, game2, fees_paid, match_status1, match_status2) 
+    			VALUES('$player_id', '$name', '$team_name', '$game1', '$game2', '$fees', '$match_status', '$match_status2')";
 
     	if ($conn->query($sql) === TRUE) {
     		$flag = "TRUE";

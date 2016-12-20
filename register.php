@@ -1,4 +1,4 @@
- <?php
+<?php
     session_start();
     // Status of previous form if submited
     if(isset($_SESSION["id_used"]) && !empty($_SESSION["id_used"])) {
