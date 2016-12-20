@@ -1,8 +1,7 @@
 <?php
 	session_start();
 	$id_unlock 	= $_POST["lock_id"];
-	$id_unused 	= $_POST["unused_id"];
-
+	
 	$servername = "localhost";
     $username 	= "root";
     $password 	= "";
@@ -17,12 +16,12 @@
     }
     echo "Connected successfully";
 
-    // Unlock mechanism : must also unlock currently loaded ID so as to not go into an unlock loop
+    // Unlock mechanism : if unlcoked from registration page must also unlock currently loaded ID so as to not go into an unlock loop
     // [START UNLOCK]
-    $sql = "DELETE FROM locks where lock_id = '$id_unlock' OR lock_id = '$id_unused'";
+    $sql = "DELETE FROM locks where lock_id = '$id_unlock'";
  	if ($conn->query($sql)) {
  		$_SESSION["id_unlock"] = $id_unlock;
- 		header("Location: /register.php");
+ 		header("Location: /locks.php");
  	} else {
  		echo "Failed to unlcok ID " . $id_unlock;
  	}
