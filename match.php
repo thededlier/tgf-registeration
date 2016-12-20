@@ -1,15 +1,4 @@
- <?php
-    session_start();
-    // Status of previous form if submited
-    if(isset($_SESSION["id_used"]) && !empty($_SESSION["id_used"])) {
-        echo $_SESSION["id_used"] . " status : " . $_SESSION["status"] . "<br>";
-        session_unset(); 
-    }
-    if(isset($_SESSION["id_unlock"]) && !empty($_SESSION["id_unlock"])) {
-        echo $_SESSION["id_unlock"] . " unlocked successfully";
-        session_unset();
-    }
-
+<?php
     $servername = "localhost";
     $username   = "root";
     $password   = "";
@@ -25,58 +14,9 @@
     echo "Connected successfully";
 
 
-    // Locking Algorithm
-    // [START LOCK]
-    // Determine ID to set
-    $sql = "SELECT * FROM register order by player_id asc";
-    $result = $conn->query($sql);
+    // Get matches ongoing
 
-    $check = "TRUE";
-    $id = "TGF170001";
-    if ($result->num_rows > 0) {
-        // Check used values
-        while($row = $result->fetch_assoc()) {
-            while($check) {
-                if($id != $row["player_id"]) {
-                    // Check if locked
-                    $sql = "SELECT * FROM locks where lock_id = '$id'";
-                    $locks = $conn->query($sql);
-                    if($locks->num_rows == 0) {
-                        $check = "FALSE";
-                        break;
-                    }
-                } 
-                $id ++;
-            }
-            if(!$check)
-                break;
-        }
-    } else {
-        $sql = "SELECT * FROM locks order by lock_id asc";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                if($id != $row["lock_id"]) {
-                    break;
-                } else {
-                    $id = $row["lock_id"];
-                }
-                $id ++;
-            }
-        } else {
-            // Initialize. This is the start of entering data
-            $id = "TGF170001";
-        }
-    }
-    // add lock
-    $sql = "INSERT INTO locks(lock_id) 
-            VALUES('$id')";
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    // [STOP LOCK]
+    // Get matches completed
 ?> 
 
 <!DOCTYPE html>
@@ -99,57 +39,132 @@
 
     <div class="container">
         <div class="row">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#all-stats">All Status</a></li>
+              <li><a data-toggle="tab" href="#">Menu 1</a></li>
+              <li><a data-toggle="tab" href="#">Menu 2</a></li>
+              <li><a data-toggle="tab" href="#">Menu 3</a></li>
+            </ul>
 
-            <div class="header">
-                <h1> Participant Registration</h1>
+            <div class="tab-content">
+                <div id="all-stats">
+                    <h1> Status of All Teams and Players </h1>
+
+                    <h4>
+                        Team Matches Remaining : 
+                        <?php
+                            // Get teams matches remaining
+                            $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'waiting'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $team_remain_count = $row["COUNT(DISTINCT team_name)"];
+                            echo $team_remain_count; 
+                        ?>  
+                    </h4> 
+
+                    <h4>
+                        Team Matches ongoing : 
+                        <?php
+                            // Get teams matches ongoing
+                            $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'ongoing'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $team_ongo_count = $row["COUNT(DISTINCT team_name)"];
+                            echo $team_ongo_count; 
+                        ?>  
+                    </h4> 
+
+                    <h4>
+                        Team Matches Completed : 
+                        <?php
+                            // Get teams matches completed
+                            $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'completed'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $team_completed_count = $row["COUNT(DISTINCT team_name)"];
+                            echo $team_completed_count; 
+                        ?>  
+                    </h4> 
+                    
+                    <h4> 
+                        Single Player Matches remaining : 
+                        <?php 
+                            // Get single matches remaining
+                            $sql = "SELECT COUNT(DISTINCT player_id) FROM register WHERE match_status2 = 'waiting'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $single_remain_count = $row["COUNT(DISTINCT player_id)"];
+                            echo $single_remain_count; 
+                        ?>
+                    </h4>
+
+                    <h4> 
+                        Single Player Matches ongoing : 
+                        <?php 
+                            // Get single matches ongoing
+                            $sql = "SELECT COUNT(DISTINCT player_id) FROM register WHERE match_status2 = 'ongoing'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $single_ongo_count = $row["COUNT(DISTINCT player_id)"];
+                            echo $single_ongo_count; 
+                        ?>
+                    </h4>
+
+                    <h4> 
+                        Single Player Matches completed : 
+                        <?php 
+                            // Get single matches completed
+                            $sql = "SELECT COUNT(DISTINCT player_id) FROM register WHERE match_status2 = 'completed'";
+                            $result = $conn->query($sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $single_completed_count = $row["COUNT(DISTINCT player_id)"];
+                            echo $single_completed_count; 
+                        ?>
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th> Player ID </th>
+                                <th> Name </th>
+                                <th> Team Name </th>
+                                <th> Game 1 </th>
+                                <th> Game 2 </th>
+                                <th> Fees Paid </th>
+                                <th> Timestamp </th>
+                                <th> Match Status 1 </th>
+                                <th> Match Status 2 </th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    // Fetch All Stats
+                                    // [START FETCH_STATS]
+                                    $sql = "SELECT * FROM register order by player_id asc";
+                                    $all_register = $conn->query($sql); 
+                                    
+                                    if ($all_register->num_rows > 0) {
+                                        while($row = $all_register->fetch_assoc()) {
+                                            $html = "<tr>" .
+                                                        "<td>" . $row["player_id"] . "</td>" .
+                                                        "<td>" . $row["name"] . "</td>" .
+                                                        "<td>" . $row["team_name"] . "</td>" .
+                                                        "<td>" . $row["game1"] . "</td>" .
+                                                        "<td>" . $row["game2"] . "</td>" .
+                                                        "<td>" . $row["fees_paid"] . "</td>" .
+                                                        "<td>" . $row["timestamp"] . "</td>" .
+                                                        "<td>" . $row["match_status1"] . "</td>" .
+                                                        "<td>" . $row["match_status2"] . "</td>" .
+                                                    "</tr>";
+                                            echo $html;
+                                        }
+                                    } else {
+                                        echo "No registrations found";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            
-            <form class="form-horizontal" action="/process/process_register.php" method="POST">
-                <div class="col-lg-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="player_id">ID</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="player_id" name="player_id" required="required" readonly
-                                    value="<?php echo $id; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="name">Name</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="team_name">Team Name</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="team_name" name="team_name">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="game1">Game 1</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="game1" name="game1" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="game2">Game 2</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="text" class="form-control" id="game2" name="game2" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-4 col-xs-3" for="fees">Fees Paid</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="number" class="form-control" id="fees" name="fees" required="required">
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary"> Submit</button>
-            </form>
         </div>
     </div>
 
