@@ -37,14 +37,36 @@
     }
     echo "Connected successfully";
 
+    // [START SUBMISSION]
+    // Final check if ID not already used
     $sql = "SELECT player_id FROM register WHERE player_id = '$player_id'";
     $result = $conn->query($sql);
 
-    // [START SUBMISSION]
-    // Final check if ID not already used
     if($result->num_rows == 0) {
+		// Add team name round1 table and check if team members exceed limit
+	    if($team_name != "") {
+    		$sql = "SELECT members FROM team_game_r1 WHERE team_name = '$team_name' AND game = '$game1'";
+    		$result = $conn->query($sql);
+    		$row = $result->fetch_assoc();
+    		if($result->num_rows == 0) {
+    			$members = 1;
+    			$sql = "INSERT INTO team_game_r1(team_name, round, match_status, game, members)
+    					VALUES('$team_name', 1, '$match_status1', '$game1', '$members')";
+    			$conn->query($sql);
+    		} else if($row["members"] < 5) {
+    			$members = $row["members"];
+    			$members ++;
+    			$sql = "UPDATE team_game_r1 SET members = '$members' WHERE team_name = '$team_name'";
+    			$conn->query($sql);
+    		} else {
+    			// Team full
+    			$_SESSION["status"] = "This team is already full. Please choose another team name";
+				header('Location: /register.php');
+    		}
+	    }
+
     	$sql = "INSERT INTO register(player_id, name, team_name, game1, game2, fees_paid, match_status1, match_status2) 
-    			VALUES('$player_id', '$name', '$team_name', '$game1', '$game2', '$fees', '$match_status', '$match_status2')";
+    			VALUES('$player_id', '$name', '$team_name', '$game1', '$game2', '$fees', '$match_status1', '$match_status2')";
 
     	if ($conn->query($sql) === TRUE) {
     		$flag = "TRUE";
@@ -56,6 +78,7 @@
     	// ID Already used
     	echo "ID Mismatch";
     }
+    
     // [END SUBMISSION]
 
     // [START REMOVE_LOCK]
@@ -68,8 +91,9 @@
     // [END REMOVE_LOCK]
 
     // Send back status of registration
-    $_SESSION["id_used"] 	=	$player_id;
-    $_SESSION["status"] 	=	$flag; 
-
+    if($flag == "TRUE")
+    	$_SESSION["status"] 	=	$player_id . " registered successfully";
+    else 
+    	$_SESSION["status"]		=	$player_id . " failed to register";
     header('Location: /register.php');
 ?>

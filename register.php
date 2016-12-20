@@ -1,8 +1,8 @@
 <?php
     session_start();
     // Status of previous form if submited
-    if(isset($_SESSION["id_used"]) && !empty($_SESSION["id_used"])) {
-        echo $_SESSION["id_used"] . " status : " . $_SESSION["status"] . "<br>";
+    if(isset($_SESSION["status"]) && !empty($_SESSION["status"])) {
+        echo $_SESSION["status"] . "<br>";
         session_unset(); 
     }
     if(isset($_SESSION["id_unlock"]) && !empty($_SESSION["id_unlock"])) {

@@ -12,11 +12,6 @@
         die("Connection failed: " . $conn->connect_error);
     }
     echo "Connected successfully";
-
-
-    // Get matches ongoing
-
-    // Get matches completed
 ?> 
 
 <!DOCTYPE html>
@@ -41,13 +36,13 @@
         <div class="row">
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#all-stats">All Status</a></li>
-              <li><a data-toggle="tab" href="#">Menu 1</a></li>
+              <li><a data-toggle="tab" href="#cod">COD</a></li>
               <li><a data-toggle="tab" href="#">Menu 2</a></li>
               <li><a data-toggle="tab" href="#">Menu 3</a></li>
             </ul>
 
             <div class="tab-content">
-                <div id="all-stats">
+                <div id="all-stats" class="tab-pane fade in active">
                     <h1> Status of All Teams and Players </h1>
 
                     <h4>
@@ -163,6 +158,10 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+                <div id="cod" class="tab-pane fade">
+                    <h1> Call of Duty </h1>
                 </div>
             </div>
         </div>
