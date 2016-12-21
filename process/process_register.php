@@ -1,4 +1,6 @@
 <?php
+	include '/process/connect.php';
+	
 	session_start();
 
 	$flag = "FALSE";		
@@ -22,20 +24,6 @@
 		$data = htmlspecialchars($data);
 		return $data;
 	}
-
-	$servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "tgf";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully";
 
     // [START SUBMISSION]
     // Final check if ID not already used
@@ -76,7 +64,7 @@
 	    }
     } else {
     	// ID Already used
-    	echo "ID Mismatch";
+    	echo "ID Mismatch :: The ID is already in use";
     }
     
     // [END SUBMISSION]

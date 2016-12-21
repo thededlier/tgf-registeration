@@ -1,17 +1,5 @@
 <?php
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $dbname     = "tgf";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully";
+    include '/process/connect.php';
 ?> 
 
 <!DOCTYPE html>
@@ -38,7 +26,7 @@
               <li class="active"><a data-toggle="tab" href="#all-stats">All Status</a></li>
               <li><a data-toggle="tab" href="#cod">COD</a></li>
               <li><a data-toggle="tab" href="#">Menu 2</a></li>
-              <li><a data-toggle="tab" href="#">Menu 3</a></li>
+              <li><a data-toggle="tab" href="#start-match">Start Match</a></li>
             </ul>
 
             <div class="tab-content">
@@ -49,10 +37,10 @@
                         Team Matches Remaining : 
                         <?php
                             // Get teams matches remaining
-                            $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'waiting'";
+                            $sql = "SELECT COUNT(DISTINCT team_name, game1) FROM register WHERE match_status1 = 'waiting'";
                             $result = $conn->query($sql);
                             $row = mysqli_fetch_assoc($result);
-                            $team_remain_count = $row["COUNT(DISTINCT team_name)"];
+                            $team_remain_count = $row["COUNT(DISTINCT team_name, game1)"];
                             echo $team_remain_count; 
                         ?>  
                     </h4> 
@@ -132,7 +120,7 @@
                             <tbody>
                                 <?php
                                     // Fetch All Stats
-                                    // [START FETCH_STATS]
+                                    // [START FETCH_ALL_STATS]
                                     $sql = "SELECT * FROM register order by player_id asc";
                                     $all_register = $conn->query($sql); 
                                     
@@ -154,6 +142,7 @@
                                     } else {
                                         echo "No registrations found";
                                     }
+                                    // [END FETCH_ALL_STATS]
                                 ?>
                             </tbody>
                         </table>
@@ -162,6 +151,49 @@
 
                 <div id="cod" class="tab-pane fade">
                     <h1> Call of Duty </h1>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th> Team Name </th>
+                                <th> Match Status </th>
+                                <th> Start Time </th>
+                                <th> End Time </th>
+                                <th> Last Update </th>
+                                <th> Members </th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    // Fetch All Stats
+                                    // [START FETCH_COD_STATS]
+                                    $sql = "SELECT * FROM team_game_r1 WHERE game = 'COD' order by last_update asc";
+                                    $all_register = $conn->query($sql); 
+                                    
+                                    if ($all_register->num_rows > 0) {
+                                        while($row = $all_register->fetch_assoc()) {
+                                            $html = "<tr>" .
+                                                        "<td>" . $row["team_name"] . "</td>" .
+                                                        "<td>" . $row["match_status"] . "</td>" .
+                                                        "<td>" . $row["start_time"] . "</td>" .
+                                                        "<td>" . $row["end_time"] . "</td>" .
+                                                        "<td>" . $row["last_update"] . "</td>" .
+                                                        "<td>" . $row["members"] . "</td>" .
+                                                    "</tr>";
+                                            echo $html;
+                                        }
+                                    } else {
+                                        echo "No registrations found";
+                                    }
+                                    // [END FETCH_COD_STATS]
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="start-match" class="tab-pane fade">
+                    <input type="search" name="search" id="searchid" placeholder="Enter Team Name" />
+                    <div id="result"></div>
                 </div>
             </div>
         </div>

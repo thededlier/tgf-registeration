@@ -1,4 +1,6 @@
 <?php
+    include '/process/connect.php';
+
     session_start();
     // Status of previous form if submited
     if(isset($_SESSION["status"]) && !empty($_SESSION["status"])) {
@@ -9,21 +11,6 @@
         echo $_SESSION["id_unlock"] . " unlocked successfully";
         session_unset();
     }
-
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $dbname     = "tgf";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully";
-
 
     // Locking Algorithm
     // [START LOCK]
