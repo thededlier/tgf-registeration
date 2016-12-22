@@ -1,5 +1,5 @@
 <?php
-	include '/process/connect.php';
+	include '/connect.php';
 	
 	session_start();
 

@@ -65,7 +65,7 @@
 
     <div class="container">
         <div class="row">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="/process/process_match_start.php" method="POST">
                 <div class="col-lg-12 col-xs-12">
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="COD" checked>COD</label>
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="DOTA">DOTA</label>
@@ -77,13 +77,17 @@
                     <div class="live-search" id="team1-res"></div>
                 </div>
                 
-                <div class="col-lg-2 col-xs-2">
-                    <h1>VS</h1>
+                <div class="col-lg-1 col-xs-2">
+                    <button type="button" class="btn btn-danger btn-block" disabled> VS </button>
                 </div>
 
                 <div class="col-lg-5 col-xs-5">
                     <input type="text" id="team2" name="team2" class="form-control" value=" <?php echo $team2; ?>"></input>
                     <div class="live-search" id="team2-res"></div>
+                </div>
+
+                <div class="col-lg-1 col-xs-12">
+                    <button type="submit" name="submit" class="btn btn-sucess btn-block"> Start </button>
                 </div>
             </form>
         </div>
