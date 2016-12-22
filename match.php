@@ -25,8 +25,6 @@
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#all-stats">All Status</a></li>
               <li><a data-toggle="tab" href="#cod">COD</a></li>
-              <li><a data-toggle="tab" href="#">Menu 2</a></li>
-              <li><a data-toggle="tab" href="#start-match">Start Match</a></li>
             </ul>
 
             <div class="tab-content">
@@ -189,11 +187,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                <div id="start-match" class="tab-pane fade">
-                    <input type="search" name="search" id="searchid" placeholder="Enter Team Name" />
-                    <div id="result"></div>
                 </div>
             </div>
         </div>
