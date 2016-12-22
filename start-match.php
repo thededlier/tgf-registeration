@@ -1,5 +1,31 @@
 <?php
     include '/process/connect.php';
+
+    session_start();
+
+    // Set team values
+    if(!empty($_GET["team1"])) {
+        $_SESSION["team1"] = $_GET["team1"];
+        $team1 = $_SESSION["team1"];
+        
+        if(!empty($_SESSION["team2"])) {
+            $team2 = $_SESSION["team2"];
+        } else {
+            $team2 = "";
+        }
+    } else if(!empty($_GET["team2"])) {
+        $_SESSION["team2"] = $_GET["team2"];
+        $team2 = $_SESSION["team2"];
+
+        if(!empty($_SESSION["team1"])) {
+            $team1 = $_SESSION["team1"];
+        } else {
+            $team1 = "";
+        }
+    } else {
+        session_unset();
+        $team1 = $team2 = "";
+    }
 ?> 
 
 <!DOCTYPE html>
@@ -40,14 +66,14 @@
     <div class="container">
         <div class="row">
             <form class="form-horizontal">
-                <!-- <div class="col-lg-12 col-xs-12">
+                <div class="col-lg-12 col-xs-12">
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="COD" checked>COD</label>
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="DOTA">DOTA</label>
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="CS">CS</label> 
-                </div> -->
+                </div>
 
                 <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team1" name="team1" class="form-control"></input>
+                    <input type="text" id="team1" name="team1" class="form-control" value=" <?php echo $team1; ?>"></input>
                     <div class="live-search" id="team1-res"></div>
                 </div>
                 
@@ -56,7 +82,7 @@
                 </div>
 
                 <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team2" name="team2" class="form-control"></input>
+                    <input type="text" id="team2" name="team2" class="form-control" value=" <?php echo $team2; ?>"></input>
                     <div class="live-search" id="team2-res"></div>
                 </div>
             </form>
