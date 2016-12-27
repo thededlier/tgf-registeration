@@ -25,13 +25,13 @@
 		$_SESSION["error"] = "Team " . $team1 . " not found";
 		header("Location: ../start-match.php");
 	} else {
-		$row = $result->fetch_assoc();
-		if($row["match_status"] != "waiting") {
-			$_SESSION["error"] = "Team " . $team1 . " match is already " . $row["match_status"];
+		$row_team1 = $result->fetch_assoc();
+		if($row_team1["match_status"] != "waiting") {
+			$_SESSION["error"] = "Team " . $team1 . " match is already " . $row_team1["match_status"];
 			header("Location: ../start-match.php");
 		}
-		if($row["round"] != $round) {
-			$_SESSION["error"] = "Team " . $team1 . " is in round " . $row["round"];
+		if($row_team1["round"] != $round) {
+			$_SESSION["error"] = "Team " . $team1 . " is in round " . $row_team1["round"];
 			header("Location: ../start-match.php");
 		}
 	}
@@ -45,13 +45,13 @@
 		header("Location: ../start-match.php");
 		
 	} else {
-		$row = $result->fetch_assoc();
-		if($row["match_status"] != "waiting") {
-			$_SESSION["error"] = "Team " . $team2 . " match is already " . $row["match_status"];
+		$row_team2 = $result->fetch_assoc();
+		if($row_team2["match_status"] != "waiting") {
+			$_SESSION["error"] = "Team " . $team2 . " match is already " . $row_team2["match_status"];
 			header("Location: ../start-match.php");
 		}
-		if($row["round"] != $round) {
-			$_SESSION["error"] = "Team " . $team2 . " is in round " . $row["round"];
+		if($row_team2["round"] != $round) {
+			$_SESSION["error"] = "Team " . $team2 . " is in round " . $row_team2["round"];
 			header("Location: ../start-match.php");
 		}
 	}
