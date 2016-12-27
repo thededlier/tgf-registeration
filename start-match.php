@@ -55,7 +55,7 @@
             width   : 400px;
             height  : 300px;
             border  : 1px solid #000000;
-            display : none; 
+            display : block;
         }
 
         .live-search a {
@@ -105,6 +105,63 @@
                 </div>
             </form>
         </div>
+
+        <?php 
+            if(!empty($_GET["ms"])) {
+                if($_GET["ms"] = "started") {
+                    echo "Match Started";
+                    $_GET["ms"] = "";
+                }
+            }
+        ?>
+
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th> # </th>
+                            <th> Team 1 </th>
+                            <th> Team 2 </th>
+                            <th> Round </th>
+                            <th> Game </th>
+                            <th> Timestamp </th>
+                            <th> </th>
+                        </thead>
+                        <tbody>
+                            <form class="form" action="" method="POST">
+                            <?php
+                                // Fetch Ongoing Matches
+                                // [START FETCH_ONGOING_MATCHES]
+                                $sql = "SELECT * FROM matches_ongoing order by timestamp";
+                                $all_register = $conn->query($sql); 
+                                
+                                if ($all_register->num_rows > 0) {
+                                    while($row = $all_register->fetch_assoc()) {
+                                        $html = "<tr>" .
+                                                    "<td>" . $row["no"] . "</td>" .
+                                                    "<td>" . $row["team1"] . "</td>" .
+                                                    "<td>" . $row["team2"] . "</td>" .
+                                                    "<td>" . $row["game"] . "</td>" .
+                                                    "<td>" . $row["round"] . "</td>" .
+                                                    "<td>" . $row["timestamp"] . "</td>" .
+                                                    "<td>" .
+                                                        "<button type='submit' id='" . $row["no"] . "' name='" . $row["no"] . "' class='btn btn-danger btn-block'> Stop </button>" . 
+                                                    "</td>" .
+                                                "</tr>";
+                                        echo $html;
+                                    }
+                                } else {
+                                    echo "No Matches ongoing";
+                                }
+                                // [END FETCH_ONGOING_MATCHES]
+                            ?>
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>   
+        </div>
     </div>
 
 
@@ -137,7 +194,7 @@
                     }
                 })
             });
-        })
+        });
     </script>
 </body>
 

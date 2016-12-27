@@ -26,7 +26,7 @@
 		header("Location: ../start-match.php");
 	} else {
 		$row_team1 = $result->fetch_assoc();
-		if($row_team1["match_status"] != "waiting") {
+		if($row_team1["match_status"] == "ongoing") {
 			$_SESSION["error"] = "Team " . $team1 . " match is already " . $row_team1["match_status"];
 			header("Location: ../start-match.php");
 		}
@@ -46,7 +46,7 @@
 		
 	} else {
 		$row_team2 = $result->fetch_assoc();
-		if($row_team2["match_status"] != "waiting") {
+		if($row_team2["match_status"] == "ongoing") {
 			$_SESSION["error"] = "Team " . $team2 . " match is already " . $row_team2["match_status"];
 			header("Location: ../start-match.php");
 		}
@@ -55,4 +55,22 @@
 			header("Location: ../start-match.php");
 		}
 	}
+
+	$time = date("H:i:s");
+
+	// Add to ongoing matches
+	$sql = "INSERT INTO matches_ongoing(team1, team2, game, round) 
+			VALUES('$team1', '$team2', '$game', '$round')";
+	$result = $conn->query($sql);
+
+	// Update team register
+	$sql = "UPDATE team_game_r1 SET match_status = 'ongoing' AND start_time = '$time'
+	 		WHERE (team_name = '$team1' OR team_name = '$team2') AND game = '$game'";
+	$result = $conn->query($sql);
+
+	// Update individual players status
+	$sql = "UPDATE register SET match_status1 = 'ongoing' WHERE (team_name = '$team1' OR team_name = '$team2') AND game1 = '$game'";
+	$result = $conn->query($sql);
+
+	header("Location: ../start-match.php?ms=start")
 ?>
