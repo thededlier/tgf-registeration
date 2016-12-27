@@ -17,22 +17,28 @@
 		return $data;
 	}
 
+	// Both teams should not have same value
+	if($team1 == $team2) {
+		$_SESSION["error"] = "Both teams are the same";
+		die(header("Location: ../start-match.php"));
+	}
+
 	// Check Team1
 	$sql = "SELECT * FROM team_game_r1 WHERE team_name = '$team1' AND game = '$game'";
 	$result = $conn->query($sql);
 	
 	if($result->num_rows == 0) {
-		$_SESSION["error"] = "Team " . $team1 . " not found";
-		header("Location: ../start-match.php");
+		$_SESSION["error"] = "Team " . $team1 . " not found for game " . $game;
+		die(header("Location: ../start-match.php"));
 	} else {
 		$row_team1 = $result->fetch_assoc();
 		if($row_team1["match_status"] == "ongoing") {
 			$_SESSION["error"] = "Team " . $team1 . " match is already " . $row_team1["match_status"];
-			header("Location: ../start-match.php");
+			die(header("Location: ../start-match.php"));
 		}
 		if($row_team1["round"] != $round) {
 			$_SESSION["error"] = "Team " . $team1 . " is in round " . $row_team1["round"];
-			header("Location: ../start-match.php");
+			die(header("Location: ../start-match.php"));
 		}
 	}
 
@@ -41,18 +47,17 @@
 	$result = $conn->query($sql);
 	
 	if($result->num_rows == 0) {
-		$_SESSION["error"] = "Team " . $team2 . " not found";
-		header("Location: ../start-match.php");
-		
+		$_SESSION["error"] = "Team " . $team2 . " not found for game " . $game;
+		die(header("Location: ../start-match.php"));
 	} else {
 		$row_team2 = $result->fetch_assoc();
 		if($row_team2["match_status"] == "ongoing") {
 			$_SESSION["error"] = "Team " . $team2 . " match is already " . $row_team2["match_status"];
-			header("Location: ../start-match.php");
+			die(header("Location: ../start-match.php"));
 		}
 		if($row_team2["round"] != $round) {
 			$_SESSION["error"] = "Team " . $team2 . " is in round " . $row_team2["round"];
-			header("Location: ../start-match.php");
+			die(header("Location: ../start-match.php"));
 		}
 	}
 
@@ -64,13 +69,13 @@
 	$result = $conn->query($sql);
 
 	// Update team register
-	$sql = "UPDATE team_game_r1 SET match_status = 'ongoing' AND start_time = '$time'
+	$sql = "UPDATE team_game_r1 SET match_status = 'ongoing', start_time = '$time'
 	 		WHERE (team_name = '$team1' OR team_name = '$team2') AND game = '$game'";
 	$result = $conn->query($sql);
 
 	// Update individual players status
-	$sql = "UPDATE register SET match_status1 = 'ongoing' WHERE (team_name = '$team1' OR team_name = '$team2') AND game1 = '$game'";
+	$sql = "UPDATE register SET match_status = 'ongoing' WHERE (team_name = '$team1' OR team_name = '$team2') AND game1 = '$game'";
 	$result = $conn->query($sql);
 
-	header("Location: ../start-match.php?ms=start")
+	header("Location: ../start-match.php?ms=start");
 ?>

@@ -123,13 +123,12 @@
                             <th> # </th>
                             <th> Team 1 </th>
                             <th> Team 2 </th>
-                            <th> Round </th>
                             <th> Game </th>
+                            <th> Round </th>
                             <th> Timestamp </th>
                             <th> </th>
                         </thead>
                         <tbody>
-                            <form class="form" action="" method="POST">
                             <?php
                                 // Fetch Ongoing Matches
                                 // [START FETCH_ONGOING_MATCHES]
@@ -138,17 +137,23 @@
                                 
                                 if ($all_register->num_rows > 0) {
                                     while($row = $all_register->fetch_assoc()) {
-                                        $html = "<tr>" .
-                                                    "<td>" . $row["no"] . "</td>" .
-                                                    "<td>" . $row["team1"] . "</td>" .
-                                                    "<td>" . $row["team2"] . "</td>" .
-                                                    "<td>" . $row["game"] . "</td>" .
-                                                    "<td>" . $row["round"] . "</td>" .
-                                                    "<td>" . $row["timestamp"] . "</td>" .
-                                                    "<td>" .
-                                                        "<button type='submit' id='" . $row["no"] . "' name='" . $row["no"] . "' class='btn btn-danger btn-block'> Stop </button>" . 
-                                                    "</td>" .
-                                                "</tr>";
+                                        $html = "<form action='declare-winner.php' method='POST'>" .
+                                                    "<input type='hidden' name='team1' value='" . $row["team1"] . "'>" .
+                                                    "<input type='hidden' name='team2' value='" . $row["team2"] . "'>" .
+                                                    "<input type='hidden' name='game' value='" . $row["game"] . "'>" .
+                                                    "<input type='hidden' name='round' value='" . $row["round"] . "'>" .
+                                                    "<tr>" .
+                                                        "<td>" . $row["no"] . "</td>" .
+                                                        "<td>" . $row["team1"] . "</td>" .
+                                                        "<td>" . $row["team2"] . "</td>" .
+                                                        "<td>" . $row["game"] . "</td>" .
+                                                        "<td>" . $row["round"] . "</td>" .
+                                                        "<td>" . $row["timestamp"] . "</td>" .
+                                                        "<td>" .
+                                                            "<button type='submit' id='btn-" . $row["no"] . "' class='btn btn-danger btn-block'> Stop </button>" . 
+                                                        "</td>" .
+                                                    "</tr>" . 
+                                                "</form>";
                                         echo $html;
                                     }
                                 } else {
@@ -156,7 +161,6 @@
                                 }
                                 // [END FETCH_ONGOING_MATCHES]
                             ?>
-                            </form>
                         </tbody>
                     </table>
                 </div>
