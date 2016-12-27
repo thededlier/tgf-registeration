@@ -3,6 +3,11 @@
 
     session_start();
 
+    if(!empty($_SESSION["error"])) {
+        echo $_SESSION["error"];
+        session_unset($_SESSION["error"]);
+    }
+
     // Set team values
     if(!empty($_GET["team1"])) {
         $_SESSION["team1"] = $_GET["team1"];
@@ -66,14 +71,23 @@
     <div class="container">
         <div class="row">
             <form class="form-horizontal" action="/process/process_match_start.php" method="POST">
-                <div class="col-lg-12 col-xs-12">
+                <div class="col-lg-6 col-xs-6">
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="COD" checked>COD</label>
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="DOTA">DOTA</label>
                     <label class="radio-inline"><input type="radio" name="game" id="game" value="CS">CS</label> 
                 </div>
 
+                <div class="col-lg-6 col-xs-6">
+                    <div class="form-group">
+                    <label class="control-label col-lg-4 col-xs-3" for="round">Round</label>
+                        <div class="col-lg-8 col-xs-9">
+                            <input type="number" class="form-control" id="round" name="round" required="required">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team1" name="team1" class="form-control" value=" <?php echo $team1; ?>"></input>
+                    <input type="text" id="team1" name="team1" class="form-control" value="<?php echo $team1; ?>"></input>
                     <div class="live-search" id="team1-res"></div>
                 </div>
                 
@@ -82,7 +96,7 @@
                 </div>
 
                 <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team2" name="team2" class="form-control" value=" <?php echo $team2; ?>"></input>
+                    <input type="text" id="team2" name="team2" class="form-control" value="<?php echo $team2; ?>"></input>
                     <div class="live-search" id="team2-res"></div>
                 </div>
 
