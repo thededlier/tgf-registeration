@@ -49,7 +49,7 @@
     		} else {
     			// Team full
     			$_SESSION["status"] = "This team is already full. Please choose another team name";
-				header('Location: /register.php');
+				die(header('Location: /register.php'));
     		}
 	    }
 

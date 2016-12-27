@@ -9,7 +9,7 @@
     $sql = "DELETE FROM locks where lock_id = '$id_unlock'";
  	if ($conn->query($sql)) {
  		$_SESSION["id_unlock"] = $id_unlock;
- 		header("Location: /locks.php");
+ 		die(header("Location: /locks.php"));
  	} else {
  		echo "Failed to unlcok ID " . $id_unlock;
  	}
