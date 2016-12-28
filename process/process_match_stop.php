@@ -25,6 +25,8 @@
 				break;
 		}
 
+		$next_round = $round + 1;
+
 		if (function_exists('date_default_timezone_set')) {
 	  		date_default_timezone_set('Asia/Kolkata');
 		}
@@ -39,7 +41,7 @@
 			$conn->query($sql);
 
 			// Winning team update
-			$sql = "UPDATE team_game_r1 SET round = '$round + 1', match_status = 'waiting', end_time = '$time'
+			$sql = "UPDATE team_game_r1 SET round = '$next_round', match_status = 'waiting', end_time = '$time'
 					WHERE team_name = '$team1' AND game = '$game'";
 			$conn->query($sql);
 
@@ -65,7 +67,7 @@
 			$conn->query($sql);
 
 			// Winning team update
-			$sql = "UPDATE team_game_r1 SET round = '$round + 1', match_status = 'waiting', end_time = '$time' 
+			$sql = "UPDATE team_game_r1 SET round = '$next_round', match_status = 'waiting', end_time = '$time' 
 					WHERE team_name = '$team2' AND game = '$game'";
 			$conn->query($sql);
 

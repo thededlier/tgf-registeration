@@ -155,6 +155,7 @@
                             <thead>
                                 <th> Team Name </th>
                                 <th> Match Status </th>
+                                <th> Round </th>
                                 <th> Start Time </th>
                                 <th> End Time </th>
                                 <th> Last Update </th>
@@ -172,6 +173,7 @@
                                             $html = "<tr>" .
                                                         "<td>" . $row["team_name"] . "</td>" .
                                                         "<td>" . $row["match_status"] . "</td>" .
+                                                        "<td>" . $row["round"] . "</td>" .
                                                         "<td>" . $row["start_time"] . "</td>" .
                                                         "<td>" . $row["end_time"] . "</td>" .
                                                         "<td>" . $row["last_update"] . "</td>" .
