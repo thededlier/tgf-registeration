@@ -25,6 +25,9 @@
 				break;
 		}
 
+		if (function_exists('date_default_timezone_set')) {
+	  		date_default_timezone_set('Asia/Kolkata');
+		}
 		$time = date("H:i:s");
 
 		if (isset($_POST['team1-win'])) {
