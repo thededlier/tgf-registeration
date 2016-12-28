@@ -138,6 +138,7 @@
                                 if ($all_register->num_rows > 0) {
                                     while($row = $all_register->fetch_assoc()) {
                                         $html = "<form action='declare-winner.php' method='POST'>" .
+                                                    "<input type='hidden' name='no' value='" . $row["no"] . "'>" .
                                                     "<input type='hidden' name='team1' value='" . $row["team1"] . "'>" .
                                                     "<input type='hidden' name='team2' value='" . $row["team2"] . "'>" .
                                                     "<input type='hidden' name='game' value='" . $row["game"] . "'>" .

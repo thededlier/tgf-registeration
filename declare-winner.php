@@ -4,10 +4,13 @@
     session_start();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $match_id   =   test_input($_POST["no"]);
         $team1      =   test_input($_POST["team1"]);
         $team2      =   test_input($_POST["team2"]);
         $game       =   test_input($_POST["game"]);
         $round      =   test_input($_POST["round"]);
+    } else {
+        die(header("Location: start-match.php"));
     }
 
     function test_input($data) {
@@ -56,50 +59,49 @@
 
     <div class="container">
         <div class="row">
-            <form class="form-horizontal" action="/process/process_match_start.php" method="POST">
-                <div class="col-lg-6 col-xs-6">
-                    <label class="radio-inline"><input type="radio" name="game" id="game" value="COD" checked>COD</label>
-                    <label class="radio-inline"><input type="radio" name="game" id="game" value="DOTA">DOTA</label>
-                    <label class="radio-inline"><input type="radio" name="game" id="game" value="CS">CS</label> 
-                </div>
+            <form class="form-horizontal" action="/process/process_match_stop.php" method="POST">
+                <div class="row">
+                    <div class="col-lg-4 col-xs-4">
+                        <h3>Game : <?php echo $game; ?></h3>
+                        <input type="hidden" name="game" value="<?php echo $game; ?>"></input> 
+                    </div>
 
-                <div class="col-lg-6 col-xs-6">
-                    <div class="form-group">
-                    <label class="control-label col-lg-4 col-xs-3" for="round">Round</label>
-                        <div class="col-lg-8 col-xs-9">
-                            <input type="number" class="form-control" id="round" name="round" required="required">
-                        </div>
+                    <div class="col-lg-4 col-xs-4">
+                        <h3>Round : <?php echo $round; ?></h3>
+                        <input type="hidden" name="round" value="<?php echo $round; ?>"></input>
+                    </div>
+
+                    <div class="col-lg-4 col-xs-4">
+                        <h3><input type="number" name="match_id" value="<?php echo $match_id; ?>"></input></h3>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-5 col-xs-5">
+                        <input type="text" id="team1" name="team1" class="form-control" readonly value="<?php echo $team1; ?>"></input>
+                    </div>
+                    
+                    <div class="col-lg-2 col-xs-2">
+                        <button type="button" class="btn btn-danger btn-block" disabled> VS </button>
+                    </div>
 
-                <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team1" name="team1" class="form-control" value="<?php echo $team1; ?>"></input>
-                    <div class="live-search" id="team1-res"></div>
+                    <div class="col-lg-5 col-xs-5">
+                        <input type="text" id="team2" name="team2" class="form-control" readonly value="<?php echo $team2; ?>"></input>
+                    </div>
                 </div>
-                
-                <div class="col-lg-1 col-xs-2">
-                    <button type="button" class="btn btn-danger btn-block" disabled> VS </button>
-                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-xs-5">
+                        <button type="submit" name="team1-win" class="btn btn-success btn-lg">Winner</button>
+                    </div>
 
-                <div class="col-lg-5 col-xs-5">
-                    <input type="text" id="team2" name="team2" class="form-control" value="<?php echo $team2; ?>"></input>
-                    <div class="live-search" id="team2-res"></div>
-                </div>
-
-                <div class="col-lg-1 col-xs-12">
-                    <button type="submit" name="submit" class="btn btn-sucess btn-block"> Start </button>
+                    <div class="col-lg-2 col-xs-2">
+                    </div> 
+                    <div class="col-lg-5 col-xs-5">
+                        <button type="submit" name="team2-win" class="btn btn-success btn-lg">Winner</button>
+                    </div>
                 </div>
             </form>
         </div>
 
-        <?php 
-            if(!empty($_GET["ms"])) {
-                if($_GET["ms"] = "started") {
-                    echo "Match Started";
-                    $_GET["ms"] = "";
-                }
-            }
-        ?>
     </div>
 
 </body>

@@ -32,7 +32,7 @@
 		die(header("Location: ../start-match.php"));
 	} else {
 		$row_team1 = $result->fetch_assoc();
-		if($row_team1["match_status"] == "ongoing") {
+		if($row_team1["match_status"] == "ongoing" || $row_team1["match_status"] == "lose") {
 			$_SESSION["error"] = "Team " . $team1 . " match is already " . $row_team1["match_status"];
 			die(header("Location: ../start-match.php"));
 		}
@@ -51,7 +51,7 @@
 		die(header("Location: ../start-match.php"));
 	} else {
 		$row_team2 = $result->fetch_assoc();
-		if($row_team2["match_status"] == "ongoing") {
+		if($row_team2["match_status"] == "ongoing" || $row_team2["match_status"] == "lose") {
 			$_SESSION["error"] = "Team " . $team2 . " match is already " . $row_team2["match_status"];
 			die(header("Location: ../start-match.php"));
 		}
