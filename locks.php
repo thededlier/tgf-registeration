@@ -49,12 +49,17 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-                <?php
-                    if(isset($_SESSION["id_unlock"]) && !empty($_SESSION["id_unlock"])) {
-                        echo $_SESSION["id_unlock"] . " unlocked successfully";
-                        session_unset();
-                    }
-                ?>
+                <div class="row">
+                    <?php
+                        if(isset($_SESSION["id_unlock"]) && !empty($_SESSION["id_unlock"])) {
+                            echo $_SESSION["id_unlock"] . " unlocked successfully";
+                            session_unset();
+                        }
+                    ?>
+                    <span class="pull-right">
+                        TGF-17
+                    </span>
+                </div>
                 <div class="row">
                     <div class="table-responsive">
                         <table class="table">
@@ -76,7 +81,7 @@
                                                         "<tr>" .
                                                             "<td>" . $row["lock_id"] . "</td>" .
                                                             "<td>" . $row["timestamp"] . "</td>" .
-                                                            "<td>" . "<button type='submit' id='>" . $row["lock_id"] . "'>Unlock</button>" . "</td>" .
+                                                            "<td>" . "<button type='submit' class='btn btn-danger' id='>" . $row["lock_id"] . "'>Unlock</button>" . "</td>" .
                                                         "</tr>" .
                                                     "</form>";
                                             echo $html;

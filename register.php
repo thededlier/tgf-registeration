@@ -160,7 +160,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary"> Submit</button>
+                        <center><button type="submit" class="btn btn-primary btn-lg"> Submit</button></center>
                     </form>
                 </div>
 

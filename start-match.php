@@ -47,22 +47,6 @@
 </head>
 
 <body>
-    <style>
-        .live-search {
-            width   : 400px;
-            height  : 300px;
-            border  : 1px solid #000000;
-            display : block;
-        }
-
-        .live-search a {
-            display : block;
-            width   : 98%;
-            padding : 1%;
-            font-size: 20px;
-            border-bottom: 1px solid #000000;   
-        }
-    </style>
 
     <div id="wrapper">
 

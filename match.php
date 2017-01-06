@@ -122,7 +122,7 @@
                                 Single Player Matches completed : 
                                 <?php 
                                     // Get single matches completed
-                                    $sql = "SELECT COUNT(DISTINCT player_id) FROM register WHERE match_status2 = 'completed'";
+                                    $sql = "SELECT COUNT(DISTINCT player_id) FROM register WHERE match_status2 = 'lose'";
                                     $result = $conn->query($sql);
                                     $row = mysqli_fetch_assoc($result);
                                     $single_completed_count = $row["COUNT(DISTINCT player_id)"];
@@ -310,10 +310,6 @@
             </div>
         </div>
         <!-- /#page-content-wrapper -->
-    </div>
-
-    <div class="container">
-        
     </div>
 
     <!-- jQuery library -->

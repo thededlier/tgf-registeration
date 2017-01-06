@@ -11,7 +11,8 @@
 		$result = $conn->query($sql);
 
 		while ($row = $result->fetch_assoc()) {
-			echo '<a href="../start-match.php?team1=' . $row["team_name"] . '">' . $row['team_name'] . "&nbsp&nbsp&nbsp" . $row['game'] . '</a>';
+			echo '<a href="../start-match.php?team1=' . $row["team_name"] . '">' . $row['team_name'] . '<span class="pull-right">' . 
+					$row['game'] . '</span>' . '</a>';
 		}
 	}
 	// Team 2
@@ -22,7 +23,8 @@
 		$result = $conn->query($sql);
 
 		while ($row = $result->fetch_assoc()) {
-			echo '<a href="../start-match.php?team2=' . $row["team_name"] . '">' . $row['team_name'] . "&nbsp&nbsp&nbsp" . $row['game'] . '</a>';
+			echo '<a href="../start-match.php?team2=' . $row["team_name"] . '">' . $row['team_name'] . '<span class="pull-right">' . 
+					$row['game'] . '</span>' .'</a>';
 		}
 	}
 ?>
