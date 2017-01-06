@@ -86,7 +86,7 @@
                                 Team Matches Completed : 
                                 <?php
                                     // Get teams matches completed
-                                    $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'completed'";
+                                    $sql = "SELECT COUNT(DISTINCT team_name) FROM register WHERE match_status1 = 'lose'";
                                     $result = $conn->query($sql);
                                     $row = mysqli_fetch_assoc($result);
                                     $team_completed_count = $row["COUNT(DISTINCT team_name)"];
