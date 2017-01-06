@@ -25,6 +25,8 @@
             <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#all-stats">All Status</a></li>
               <li><a data-toggle="tab" href="#cod">COD</a></li>
+              <li><a data-toggle="tab" href="#dota">DOTA</a></li>
+              <li><a data-toggle="tab" href="#cs">CS</a></li>
             </ul>
 
             <div class="tab-content">
@@ -166,6 +168,94 @@
                                     // Fetch All Stats
                                     // [START FETCH_COD_STATS]
                                     $sql = "SELECT * FROM team_game_r1 WHERE game = 'COD' order by last_update asc";
+                                    $all_register = $conn->query($sql); 
+                                    
+                                    if ($all_register->num_rows > 0) {
+                                        while($row = $all_register->fetch_assoc()) {
+                                            $html = "<tr>" .
+                                                        "<td>" . $row["team_name"] . "</td>" .
+                                                        "<td>" . $row["match_status"] . "</td>" .
+                                                        "<td>" . $row["round"] . "</td>" .
+                                                        "<td>" . $row["start_time"] . "</td>" .
+                                                        "<td>" . $row["end_time"] . "</td>" .
+                                                        "<td>" . $row["last_update"] . "</td>" .
+                                                        "<td>" . $row["members"] . "</td>" .
+                                                    "</tr>";
+                                            echo $html;
+                                        }
+                                    } else {
+                                        echo "No registrations found";
+                                    }
+                                    // [END FETCH_COD_STATS]
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="dota" class="tab-pane fade">
+                    <h1> DOTA </h1>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th> Team Name </th>
+                                <th> Match Status </th>
+                                <th> Round </th>
+                                <th> Start Time </th>
+                                <th> End Time </th>
+                                <th> Last Update </th>
+                                <th> Members </th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    // Fetch All Stats
+                                    // [START FETCH_COD_STATS]
+                                    $sql = "SELECT * FROM team_game_r1 WHERE game = 'DOTA' order by last_update asc";
+                                    $all_register = $conn->query($sql); 
+                                    
+                                    if ($all_register->num_rows > 0) {
+                                        while($row = $all_register->fetch_assoc()) {
+                                            $html = "<tr>" .
+                                                        "<td>" . $row["team_name"] . "</td>" .
+                                                        "<td>" . $row["match_status"] . "</td>" .
+                                                        "<td>" . $row["round"] . "</td>" .
+                                                        "<td>" . $row["start_time"] . "</td>" .
+                                                        "<td>" . $row["end_time"] . "</td>" .
+                                                        "<td>" . $row["last_update"] . "</td>" .
+                                                        "<td>" . $row["members"] . "</td>" .
+                                                    "</tr>";
+                                            echo $html;
+                                        }
+                                    } else {
+                                        echo "No registrations found";
+                                    }
+                                    // [END FETCH_COD_STATS]
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="cs" class="tab-pane fade">
+                    <h1> Counter Strike </h1>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th> Team Name </th>
+                                <th> Match Status </th>
+                                <th> Round </th>
+                                <th> Start Time </th>
+                                <th> End Time </th>
+                                <th> Last Update </th>
+                                <th> Members </th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    // Fetch All Stats
+                                    // [START FETCH_COD_STATS]
+                                    $sql = "SELECT * FROM team_game_r1 WHERE game = 'CS' order by last_update asc";
                                     $all_register = $conn->query($sql); 
                                     
                                     if ($all_register->num_rows > 0) {
